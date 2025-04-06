@@ -1,0 +1,28 @@
+name: Build
+run-name: ${{ github.ref }} build
+on:
+  workflow_call:
+    inputs:
+      upload-artifact:
+        description: "Whether to upload the artifact as an upload-pages-artifact"
+        required: false
+        type: boolean
+        default: false
+  pull_request:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install npm packages
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Upload static files as pages artifact
+        if: ${{ inputs.upload-artifact }}
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
