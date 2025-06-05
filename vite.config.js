@@ -1,3 +1,4 @@
 export default {
-  base: "/wedding-site/",
+  // base: "/wedding-site/",
+  base: "",
 };
